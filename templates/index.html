@@ -3,155 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <title>Tower of Power</title>
-
 <style>
-* {
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
-
-body {
-  margin: 0;
-  height: 100vh;
-  display: flex;
-  background-size: cover;
-  background-position: center;
-  transition: background 0.6s ease;
-  color: white;
-}
-
-/* ===== CATEGORY BACKGROUNDS ===== */
-.bg-Geography {
-  background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)),
-  url("https://images.unsplash.com/photo-1502920917128-1aa500764b6e");
-}
-.bg-History {
-  background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)),
-  url("https://images.unsplash.com/photo-1524492412937-b28074a5d7da");
-}
-.bg-General\ Knowledge {
-  background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)),
-  url("https://images.unsplash.com/photo-1519681393784-d120267933ba");
-}
-.bg-Soccer {
-  background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)),
-  url("https://images.unsplash.com/photo-1518091043644-c1d4457512c6");
-}
-.bg-American\ Football {
-  background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)),
-  url("https://images.unsplash.com/photo-1508609349937-5ec4ae374ebf");
-}
-
-/* ===== LAYOUT ===== */
-.sidebar {
-  width: 220px;
-  padding: 20px;
-  background: rgba(0,0,0,.75);
-}
-
-.sidebar h2 {
-  text-align: center;
-}
-
-.category-btn {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 8px;
-  background: #1e90ff;
-  border: none;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.category-btn:hover {
-  background: #63b3ff;
-}
-
-.main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-}
-
-/* ===== QUESTION ===== */
-.question {
-  font-size: 26px;
-  margin-bottom: 10px;
-}
-
-/* ===== INPUT ===== */
-input {
-  width: 320px;
-  padding: 10px;
-  font-size: 18px;
-}
-
-#suggestions {
-  width: 320px;
-  background: #222;
-  border-radius: 6px;
-  margin-top: 2px;
-  max-height: 140px;
-  overflow-y: auto;
-}
-
-.suggestion {
-  padding: 8px;
-  cursor: pointer;
-}
-
-.suggestion:hover {
-  background: #444;
-}
-
-/* ===== PYRAMID ===== */
-.pyramid {
-  margin-top: 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-}
-
-.block {
-  width: calc(140px + var(--i) * 22px);
-  height: 42px;
-  background: #333;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  border-radius: 6px;
-  transform-style: preserve-3d;
-  transition: transform 0.6s;
-}
-
-.block.revealed {
-  background: #28a745;
-  transform: rotateY(180deg);
-}
-
-/* ===== LIVES ===== */
-.lives {
-  margin-top: 10px;
-}
-
-.life {
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  background: red;
-  border-radius: 50%;
-  margin: 0 4px;
-}
+* { box-sizing: border-box; font-family: Arial, sans-serif; }
+body { margin: 0; height: 100vh; display: flex; background-size: cover; background-position: center; transition: background 0.6s ease; color: white; }
+/* CATEGORY BACKGROUNDS */
+.bg-Geography { background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("https://images.unsplash.com/photo-1502920917128-1aa500764b6e"); }
+.bg-History { background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("https://images.unsplash.com/photo-1524492412937-b28074a5d7da"); }
+.bg-General\ Knowledge { background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("https://images.unsplash.com/photo-1519681393784-d120267933ba"); }
+.bg-Soccer { background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("https://images.unsplash.com/photo-1518091043644-c1d4457512c6"); }
+.bg-American\ Football { background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("https://images.unsplash.com/photo-1508609349937-5ec4ae374ebf"); }
+/* LAYOUT */
+.sidebar { width: 220px; padding: 20px; background: rgba(0,0,0,.75); }
+.sidebar h2 { text-align: center; }
+.category-btn { width: 100%; padding: 10px; margin-bottom: 8px; background: #1e90ff; border: none; color: white; font-size: 16px; cursor: pointer; }
+.category-btn:hover { background: #63b3ff; }
+.main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+/* QUESTION */
+.question { font-size: 26px; margin-bottom: 10px; }
+/* INPUT */
+input { width: 320px; padding: 10px; font-size: 18px; }
+#suggestions { width: 320px; background: #222; border-radius: 6px; margin-top: 2px; max-height: 140px; overflow-y: auto; }
+.suggestion { padding: 8px; cursor: pointer; }
+.suggestion:hover { background: #444; }
+/* PYRAMID */
+.pyramid { margin-top: 12px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.block { width: calc(140px + var(--i) * 22px); height: 42px; background: #333; display: flex; justify-content: center; align-items: center; font-weight: bold; border-radius: 6px; transform-style: preserve-3d; transition: transform 0.6s; }
+.block.revealed { background: #28a745; transform: rotateY(180deg); }
+/* LIVES */
+.lives { margin-top: 10px; }
+.life { display: inline-block; width: 18px; height: 18px; background: red; border-radius: 50%; margin: 0 4px; }
 </style>
 </head>
-
 <body class="bg-{{ selected_category }}">
-
 <div class="sidebar">
   <h2>Categories</h2>
   <form method="POST">
@@ -160,7 +43,6 @@ input {
     {% endfor %}
   </form>
 </div>
-
 <div class="main">
   <div class="question">
     Top 10 {{ selected_category }} – {{ current_date }}
@@ -182,34 +64,18 @@ input {
 const answers = {{ top_ten | tojson }};
 const category = "{{ selected_category }}";
 
-/* ===== SAFE AUTOCOMPLETE POOLS ===== */
 const suggestionPools = {
-  Geography: [
-    "China","Canada","Chile","Cameroon","Colombia","Comoros","Croatia",
-    "Curacao","Czech Republic","Cambodia","Congo","Costa Rica"
-  ],
-  History: [
-    "Caesar","Cleopatra","Churchill","Charlemagne",
-    "Cold War","Crimean War","Civil War","Crusades"
-  ],
-  Soccer: [
-    "Cristiano Ronaldo","Cantona","Casillas","Cafu",
-    "Cruyff","Chiellini","Carlos Tevez","Cesc Fabregas"
-  ],
-  "American Football": [
-    "Tom Brady","Troy Aikman","Terrell Owens",
-    "Tony Gonzalez","Cam Newton","Christian McCaffrey"
-  ],
-  "General Knowledge": [
-    "Cheetah","Canada","Carbon","Canberra",
-    "Calcium","Compass","Celsius"
-  ]
+  Geography: ["China","Canada","Chile","Cameroon","Colombia","Comoros","Croatia","Curacao","Czech Republic","Cambodia","Congo","Costa Rica"],
+  History: ["Caesar","Cleopatra","Churchill","Charlemagne","Cold War","Crimean War","Civil War","Crusades","WWII","Napoleon","Genghis Khan","French Revolution","Renaissance"],
+  Soccer: ["Cristiano Ronaldo","Cantona","Casillas","Cafu","Cruyff","Chiellini","Carlos Tevez","Cesc Fabregas","Lionel Messi","Luis Suarez","Zlatan"],
+  "American Football": ["Tom Brady","Troy Aikman","Terrell Owens","Tony Gonzalez","Cam Newton","Christian McCaffrey","Drew Brees","Peyton Manning","Brett Favre"],
+  "General Knowledge": ["Cheetah","Canada","Carbon","Canberra","Calcium","Compass","Celsius","Mount Everest","K2","Kangchenjunga"]
 };
 
 const pool = suggestionPools[category] || [];
 let revealed = [];
+let lives = 3;
 
-/* ===== BUILD PYRAMID ===== */
 const pyramid = document.getElementById("pyramid");
 answers.forEach((_, i) => {
   const block = document.createElement("div");
@@ -219,20 +85,41 @@ answers.forEach((_, i) => {
   pyramid.appendChild(block);
 });
 
-/* ===== GUESS HANDLING ===== */
+const livesContainer = document.getElementById("lives");
+
 function submitGuess() {
   const input = document.getElementById("guess");
   const guess = input.value.trim().toLowerCase();
   input.value = "";
   document.getElementById("suggestions").innerHTML = "";
 
+  let correct = false;
   answers.forEach((answer, i) => {
     if (answer.toLowerCase() === guess && !revealed.includes(i)) {
       pyramid.children[i].textContent = answer;
       pyramid.children[i].classList.add("revealed");
       revealed.push(i);
+      correct = true;
     }
   });
+
+  if (!correct) {
+    lives--;
+    if (livesContainer.children[lives]) {
+      livesContainer.children[lives].style.background = "#555";
+    }
+  }
+
+  checkGameEnd();
+}
+
+function checkGameEnd() {
+  if (revealed.length === answers.length || lives === 0) {
+    setTimeout(() => {
+      alert(`Game Over! You got ${revealed.length} / 10 correct.`);
+      location.reload();
+    }, 200);
+  }
 }
 
 /* ===== SMART AUTOCOMPLETE ===== */
@@ -265,8 +152,6 @@ input.addEventListener("keyup", e => {
   if (e.key === "Enter") submitGuess();
 });
 </script>
-
 </body>
 </html>
-
 
