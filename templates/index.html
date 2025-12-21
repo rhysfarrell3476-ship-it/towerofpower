@@ -6,12 +6,13 @@
 <style>
 * { box-sizing: border-box; font-family: Arial, sans-serif; margin: 0; padding: 0; }
 body { height: 100vh; display: flex; background-size: cover; background-position: center; transition: background 0.6s ease; color: white; }
+
 /* CATEGORY BACKGROUNDS */
-.bg-Geography { background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("https://images.unsplash.com/photo-1502920917128-1aa500764b6e"); }
-.bg-History { background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("https://images.unsplash.com/photo-1524492412937-b28074a5d7da"); }
-.bg-General\ Knowledge { background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("https://images.unsplash.com/photo-1519681393784-d120267933ba"); }
-.bg-Soccer { background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("https://images.unsplash.com/photo-1518091043644-c1d4457512c6"); }
-.bg-American\ Football { background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("https://images.unsplash.com/photo-1508609349937-5ec4ae374ebf"); }
+.bg_Geography { background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("https://images.unsplash.com/photo-1502920917128-1aa500764b6e"); }
+.bg_History { background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("https://images.unsplash.com/photo-1524492412937-b28074a5d7da"); }
+.bg_General_Knowledge { background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("https://images.unsplash.com/photo-1519681393784-d120267933ba"); }
+.bg_Soccer { background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("https://images.unsplash.com/photo-1518091043644-c1d4457512c6"); }
+.bg_American_Football { background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("https://images.unsplash.com/photo-1508609349937-5ec4ae374ebf"); }
 
 /* LAYOUT */
 .sidebar { width: 220px; padding: 20px; background: rgba(0,0,0,.75); }
@@ -40,7 +41,7 @@ input { width: 280px; padding: 8px; font-size: 16px; margin-bottom: 4px; }
 .life { display: inline-block; width: 16px; height: 16px; background: red; border-radius: 50%; margin: 0 3px; }
 </style>
 </head>
-<body class="bg-{{ selected_category }}">
+<body class="bg-{{ category_class }}">
 <div class="sidebar">
   <h2>Categories</h2>
   <form method="POST">
@@ -50,9 +51,7 @@ input { width: 280px; padding: 8px; font-size: 16px; margin-bottom: 4px; }
   </form>
 </div>
 <div class="main">
-  <div class="question">
-    {{ question_text }}
-  </div>
+  <div class="question">{{ question_text }}</div>
 
   <input id="guess" placeholder="Type your answer..." autocomplete="off">
   <div id="suggestions"></div>
@@ -68,14 +67,14 @@ input { width: 280px; padding: 8px; font-size: 16px; margin-bottom: 4px; }
 
 <script>
 const answers = {{ top_ten | tojson }};
-const category = "{{ selected_category }}";
+const category = "{{ category_class }}";
 
 const suggestionPools = {
   Geography: ["China","Canada","Chile","Cameroon","Colombia","Comoros","Croatia","Curacao","Czech Republic","Cambodia","Congo","Costa Rica"],
   History: ["Caesar","Cleopatra","Churchill","Charlemagne","Cold War","Crimean War","Civil War","Crusades","WWII","Napoleon","Genghis Khan","French Revolution","Renaissance"],
+  General_Knowledge: ["Cheetah","Canada","Carbon","Canberra","Calcium","Compass","Celsius","Mount Everest","K2","Kangchenjunga"],
   Soccer: ["Cristiano Ronaldo","Cantona","Casillas","Cafu","Cruyff","Chiellini","Carlos Tevez","Cesc Fabregas","Lionel Messi","Luis Suarez","Zlatan"],
-  "American Football": ["Tom Brady","Troy Aikman","Terrell Owens","Tony Gonzalez","Cam Newton","Christian McCaffrey","Drew Brees","Peyton Manning","Brett Favre"],
-  "General Knowledge": ["Cheetah","Canada","Carbon","Canberra","Calcium","Compass","Celsius","Mount Everest","K2","Kangchenjunga"]
+  American_Football: ["Tom Brady","Troy Aikman","Terrell Owens","Tony Gonzalez","Cam Newton","Christian McCaffrey","Drew Brees","Peyton Manning","Brett Favre"]
 };
 
 const pool = suggestionPools[category] || [];
@@ -128,7 +127,7 @@ function checkGameEnd() {
   }
 }
 
-/* ===== SMART AUTOCOMPLETE ===== */
+/* ===== AUTOCOMPLETE ===== */
 const input = document.getElementById("guess");
 const suggestionsBox = document.getElementById("suggestions");
 
@@ -153,12 +152,12 @@ input.addEventListener("input", () => {
     });
 });
 
-/* ===== ENTER KEY ===== */
 input.addEventListener("keyup", e => {
   if (e.key === "Enter") submitGuess();
 });
 </script>
 </body>
 </html>
+
 
 
