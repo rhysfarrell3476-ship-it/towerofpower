@@ -4,34 +4,40 @@
 <meta charset="UTF-8">
 <title>Tower of Power</title>
 <style>
-* { box-sizing: border-box; font-family: Arial, sans-serif; }
-body { margin: 0; height: 100vh; display: flex; background-size: cover; background-position: center; transition: background 0.6s ease; color: white; }
+* { box-sizing: border-box; font-family: Arial, sans-serif; margin: 0; padding: 0; }
+body { height: 100vh; display: flex; background-size: cover; background-position: center; transition: background 0.6s ease; color: white; }
 /* CATEGORY BACKGROUNDS */
 .bg-Geography { background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("https://images.unsplash.com/photo-1502920917128-1aa500764b6e"); }
 .bg-History { background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("https://images.unsplash.com/photo-1524492412937-b28074a5d7da"); }
 .bg-General\ Knowledge { background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("https://images.unsplash.com/photo-1519681393784-d120267933ba"); }
 .bg-Soccer { background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("https://images.unsplash.com/photo-1518091043644-c1d4457512c6"); }
 .bg-American\ Football { background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("https://images.unsplash.com/photo-1508609349937-5ec4ae374ebf"); }
+
 /* LAYOUT */
 .sidebar { width: 220px; padding: 20px; background: rgba(0,0,0,.75); }
 .sidebar h2 { text-align: center; }
 .category-btn { width: 100%; padding: 10px; margin-bottom: 8px; background: #1e90ff; border: none; color: white; font-size: 16px; cursor: pointer; }
 .category-btn:hover { background: #63b3ff; }
-.main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+
+.main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px; }
+
 /* QUESTION */
-.question { font-size: 26px; margin-bottom: 10px; text-align: center; }
+.question { font-size: 22px; margin-bottom: 8px; text-align: center; max-width: 600px; }
+
 /* INPUT */
-input { width: 320px; padding: 10px; font-size: 18px; }
-#suggestions { width: 320px; background: #222; border-radius: 6px; margin-top: 2px; max-height: 140px; overflow-y: auto; }
-.suggestion { padding: 8px; cursor: pointer; }
+input { width: 280px; padding: 8px; font-size: 16px; margin-bottom: 4px; }
+#suggestions { width: 280px; background: #222; border-radius: 6px; max-height: 120px; overflow-y: auto; margin-bottom: 6px; }
+.suggestion { padding: 6px; cursor: pointer; font-size: 14px; }
 .suggestion:hover { background: #444; }
+
 /* PYRAMID */
-.pyramid { margin-top: 12px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
-.block { width: calc(140px + var(--i) * 22px); height: 42px; background: #333; display: flex; justify-content: center; align-items: center; font-weight: bold; border-radius: 6px; transform-style: preserve-3d; transition: transform 0.6s; }
+.pyramid { display: flex; flex-direction: column; align-items: center; gap: 4px; max-height: 400px; overflow: hidden; }
+.block { width: calc(100px + var(--i) * 16px); height: 36px; background: #333; display: flex; justify-content: center; align-items: center; font-weight: bold; border-radius: 6px; transform-style: preserve-3d; transition: transform 0.6s; font-size: 14px; }
 .block.revealed { background: #28a745; transform: rotateY(180deg); }
+
 /* LIVES */
-.lives { margin-top: 10px; }
-.life { display: inline-block; width: 18px; height: 18px; background: red; border-radius: 50%; margin: 0 4px; }
+.lives { margin-top: 6px; }
+.life { display: inline-block; width: 16px; height: 16px; background: red; border-radius: 50%; margin: 0 3px; }
 </style>
 </head>
 <body class="bg-{{ selected_category }}">
