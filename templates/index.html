@@ -19,7 +19,7 @@ body { margin: 0; height: 100vh; display: flex; background-size: cover; backgrou
 .category-btn:hover { background: #63b3ff; }
 .main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 20px; }
 /* QUESTION */
-.question { font-size: 26px; margin-bottom: 10px; }
+.question { font-size: 26px; margin-bottom: 10px; text-align: center; }
 /* INPUT */
 input { width: 320px; padding: 10px; font-size: 18px; }
 #suggestions { width: 320px; background: #222; border-radius: 6px; margin-top: 2px; max-height: 140px; overflow-y: auto; }
@@ -45,7 +45,7 @@ input { width: 320px; padding: 10px; font-size: 18px; }
 </div>
 <div class="main">
   <div class="question">
-    Top 10 {{ selected_category }} – {{ current_date }}
+    {{ question_text }}
   </div>
 
   <input id="guess" placeholder="Type your answer..." autocomplete="off">
@@ -154,4 +154,5 @@ input.addEventListener("keyup", e => {
 </script>
 </body>
 </html>
+
 
