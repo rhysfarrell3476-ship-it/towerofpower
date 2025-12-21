@@ -1,42 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Top Ten Game</title>
-    <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Top Ten Game</h1>
-
-        <form method="POST">
-            <label for="category">Choose a category:</label>
-            <select name="category" id="category" required>
-                <option value="">--Select--</option>
-                {% for cat in categories %}
-                    <option value="{{ cat }}" {% if selected_category == cat %}selected{% endif %}>{{ cat }}</option>
-                {% endfor %}
-            </select>
-
-            <h2>Enter your answers:</h2>
-            {% for i in range(1, 11) %}
-                <input type="text" name="answer{{i}}" placeholder="Answer {{i}}" required><br>
+    <h1>Daily Top Ten Game</h1>
+    <form method="POST">
+        <label for="category">Select Category:</label>
+        <select name="category" onchange="this.form.submit()">
+            {% for category in categories %}
+                <option value="{{ category }}" {% if category == selected_category %}selected{% endif %}>
+                    {{ category }}
+                </option>
             {% endfor %}
+        </select>
+    </form>
 
-            <button type="submit">Submit</button>
-        </form>
-
-        {% if result %}
-            <h2>Results ({{ correct_count }}/10 correct)</h2>
-            <ul>
-                {% for r in result %}
-                    <li>
-                        Your answer: {{ r.your_answer }} |
-                        Correct answer: {{ r.correct_answer }} |
-                        {% if r.correct %}<span class="correct">✔</span>{% else %}<span class="wrong">✖</span>{% endif %}
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    </div>
+    <h2>{{ selected_category }} Top Ten</h2>
+    <ol>
+        {% for item in top_ten %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </ol>
 </body>
 </html>
+
