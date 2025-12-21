@@ -1,0 +1,9 @@
+{
+  "2025-12-21": {
+    "Geography": ["China", "India", "USA", "Indonesia", "Brazil", "Pakistan", "Nigeria", "Bangladesh", "Russia", "Mexico"],
+    "History": ["WWII", "Napoleon", "Genghis Khan", "French Revolution", "Industrial Revolution", "Renaissance", "Cold War", "American Revolution", "Roman Empire", "Mongol Empire"],
+    "General Knowledge": ["Earth", "Water", "Sun", "Moon", "Oxygen", "Python", "Elephant", "Mount Everest", "Amazon", "Gravity"],
+    "Soccer": ["Messi", "Ronaldo", "Pele", "Maradona", "Neymar", "Mbappe", "Zidane", "Beckham", "Ronaldinho", "Kane"],
+    "American Football": ["Tom Brady", "Patrick Mahomes", "Joe Montana", "Jerry Rice", "Lawrence Taylor", "Peyton Manning", "Aaron Rodgers", "Jim Brown", "Reggie White", "Emmitt Smith"]
+  }
+}
