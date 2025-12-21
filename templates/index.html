@@ -2,31 +2,188 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Top Ten Game</title>
+    <title>Tower of Power</title>
+    <style>
+        :root {
+            --bg-color: #f2f2f2;
+            --text-color: #333;
+            --accent-color: #4CAF50;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--accent-color);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+
+        main {
+            flex: 1;
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        select, button, input[type="color"] {
+            padding: 10px;
+            font-size: 1em;
+            margin: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+
+        button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .tower {
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            width: 100%;
+        }
+
+        .tower-item {
+            background: white;
+            padding: 15px;
+            margin: 5px 0;
+            border-radius: 8px;
+            width: 80%;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            font-size: 1.1em;
+            transition: transform 0.2s;
+        }
+
+        .tower-item:hover {
+            transform: scale(1.05);
+        }
+
+        .lives {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .life {
+            width: 30px;
+            height: 30px;
+            margin: 0 5px;
+            background: red;
+            clip-path: polygon(50% 0%, 61% 18%, 100% 35%, 81% 57%, 50% 100%, 19% 57%, 0% 35%, 39% 18%);
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 600px) {
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Daily Top Ten Game</h1>
-    <p>Date: {{ current_date }}</p>
+    <header>Tower of Power</header>
+    <main>
+        <div class="controls">
+            <form method="POST" style="display: flex; flex-wrap: wrap; align-items: center;">
+                <label for="category">Category:</label>
+                <select name="category" onchange="this.form.submit()">
+                    {% for category in categories %}
+                        <option value="{{ category }}" {% if category == selected_category %}selected{% endif %}>
+                            {{ category }}
+                        </option>
+                    {% endfor %}
+                </select>
 
-    <form method="POST">
-        <label for="category">Select Category:</label>
-        <select name="category" onchange="this.form.submit()">
-            {% for category in categories %}
-                <option value="{{ category }}" {% if category == selected_category %}selected{% endif %}>
-                    {{ category }}
-                </option>
+                <input type="hidden" name="date" value="{{ current_date }}">
+                <button type="submit" name="next_day">Next Day</button>
+            </form>
+
+            <div style="display: flex; flex-wrap: wrap; align-items: center; margin-left: 10px;">
+                <label>Background:</label>
+                <input type="color" id="bgColorPicker" value="#f2f2f2">
+                <label>Accent:</label>
+                <input type="color" id="accentColorPicker" value="#4CAF50">
+            </div>
+        </div>
+
+        <h2>{{ selected_category }} Top Ten - {{ current_date }}</h2>
+        <div class="tower">
+            {% for item in top_ten %}
+                <div class="tower-item">{{ item }}</div>
             {% endfor %}
-        </select>
-        <input type="hidden" name="date" value="{{ current_date }}">
-        <button type="submit" name="next_day">Next Day</button>
-    </form>
+        </div>
 
-    <h2>{{ selected_category }} Top Ten</h2>
-    <ol>
-        {% for item in top_ten %}
-            <li>{{ item }}</li>
-        {% endfor %}
-    </ol>
+        <div class="lives">
+            <div class="life"></div>
+            <div class="life"></div>
+            <div class="life"></div>
+        </div>
+    </main>
+    <footer>
+        &copy; 2025 Tower of Power. All rights reserved.
+    </footer>
+
+    <script>
+        // Change background and accent colors dynamically
+        const bgPicker = document.getElementById('bgColorPicker');
+        const accentPicker = document.getElementById('accentColorPicker');
+
+        bgPicker.addEventListener('input', () => {
+            document.documentElement.style.setProperty('--bg-color', bgPicker.value);
+        });
+
+        accentPicker.addEventListener('input', () => {
+            document.documentElement.style.setProperty('--accent-color', accentPicker.value);
+        });
+    </script>
 </body>
 </html>
+
 
