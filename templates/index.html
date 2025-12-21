@@ -4,14 +4,21 @@
   <meta charset="UTF-8">
   <title>Tower of Power</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
+    html, body {
+      height: 100%;
+      margin: 0;
     }
+    body {
+      display: flex;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Sidebar */
     #sidebar {
       width: 200px;
       background-color: #f0f0f0;
       padding: 10px;
+      overflow-y: auto;
     }
     #sidebar ul {
       list-style-type: none;
@@ -29,18 +36,31 @@
       border-radius: 5px;
       cursor: pointer;
     }
+
+    /* Main game area */
     #main {
       flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
       padding: 20px;
+      overflow: hidden;
     }
+
+    /* Question */
     #question {
       margin-bottom: 20px;
+      text-align: center;
     }
+
+    /* Tower */
     #tower {
       display: flex;
       flex-direction: column-reverse; /* bottom = rank 1 */
+      justify-content: flex-start;
+      height: 60%;
       width: 200px;
-      margin: auto;
     }
     .tower-block {
       background-color: #3498db;
@@ -49,7 +69,19 @@
       text-align: center;
       line-height: 30px;
       border-radius: 5px 5px 0 0;
+      height: 30px;
     }
+
+    /* Input area */
+    #input-area {
+      margin-top: 20px;
+    }
+    #guess {
+      padding: 5px;
+      width: 150px;
+    }
+
+    /* Lives */
     #lives {
       margin-top: 20px;
     }
@@ -64,6 +96,8 @@
   </style>
 </head>
 <body>
+
+  <!-- Sidebar -->
   <div id="sidebar">
     <h3>Categories</h3>
     <ul>
@@ -85,25 +119,95 @@
     </form>
   </div>
 
+  <!-- Main area -->
   <div id="main">
+    <!-- Question -->
     <div id="question">
       <h2>{{ question_text }}</h2>
     </div>
 
+    <!-- Tower -->
     <div id="tower">
       {% for i in range(top_ten|length) %}
-        <div class="tower-block" style="height:{{ (top_ten|length - i) * 30 }}px;">
-          {{ top_ten[i] }}
-        </div>
+        <div class="tower-block" id="block-{{ i }}"></div>
       {% endfor %}
     </div>
 
+    <!-- Input -->
+    <div id="input-area">
+      <input type="text" id="guess" placeholder="Enter your guess">
+      <button onclick="submitGuess()">Submit</button>
+    </div>
+
+    <!-- Lives -->
     <div id="lives">
       {% for i in range(lives) %}
         <div class="life"></div>
       {% endfor %}
     </div>
   </div>
+
+  <!-- Game JS -->
+  <script>
+    const answers = {{ top_ten|tojson }};
+    let lives = {{ lives }};
+    let gameOver = false;
+
+    function submitGuess() {
+      if (gameOver) return;
+
+      const guessInput = document.getElementById('guess');
+      const guess = guessInput.value.trim();
+      guessInput.value = '';
+
+      let correct = false;
+
+      for (let i = 0; i < answers.length; i++) {
+        const block = document.getElementById('block-' + i);
+        if (block.innerText === '' && answers[i].toLowerCase() === guess.toLowerCase()) {
+          block.innerText = answers[i];
+          block.style.backgroundColor = '#2ecc71'; // green
+          correct = true;
+          break;
+        }
+      }
+
+      if (!correct) {
+        lives--;
+        updateLives();
+        if (lives <= 0) {
+          endGame();
+        }
+      }
+
+      // Check if all answers revealed
+      if (document.querySelectorAll('.tower-block:empty').length === 0) {
+        endGame();
+      }
+    }
+
+    function updateLives() {
+      const lifeDivs = document.getElementById('lives').children;
+      for (let i = 0; i < lifeDivs.length; i++) {
+        lifeDivs[i].style.backgroundColor = i < lives ? 'red' : 'grey';
+      }
+    }
+
+    function endGame() {
+      gameOver = true;
+      // Reveal remaining answers
+      for (let i = 0; i < answers.length; i++) {
+        const block = document.getElementById('block-' + i);
+        if (block.innerText === '') {
+          block.innerText = answers[i];
+          block.style.backgroundColor = '#e74c3c'; // red for missed
+        }
+      }
+      document.getElementById('guess').disabled = true;
+      alert('Game Over!');
+    }
+  </script>
+
 </body>
 </html>
 
