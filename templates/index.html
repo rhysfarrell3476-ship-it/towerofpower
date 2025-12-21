@@ -1,221 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Tower of Power</title>
-    <style>
-        :root {
-            --bg-color: #f2f2f2;
-            --text-color: #333;
-            --accent-color: #4CAF50;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        header {
-            background: var(--accent-color);
-            color: white;
-            padding: 20px;
-            text-align: center;
-            font-size: 2.5em;
-            font-weight: bold;
-        }
-
-        main {
-            flex: 1;
-            padding: 20px;
-            max-width: 600px;
-            margin: auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            width: 100%;
-            flex-wrap: wrap;
-        }
-
-        select, button, input[type="color"] {
-            padding: 10px;
-            font-size: 1em;
-            margin: 5px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            cursor: pointer;
-        }
-
-        button {
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            transition: background 0.3s;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        h2 {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .tower {
-            display: flex;
-            flex-direction: column-reverse;
-            align-items: center;
-            width: 100%;
-        }
-
-        .tower-item {
-            background: white;
-            padding: 15px;
-            margin: 5px 0;
-            border-radius: 8px;
-            width: 80%;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            font-size: 1.1em;
-            transition: transform 0.2s;
-        }
-
-        .tower-item:hover {
-            transform: scale(1.05);
-        }
-
-        .lives {
-            display: flex;
-            justify-content: center;
-            margin-top: 30px;
-        }
-
-        .life {
-            width: 30px;
-            height: 30px;
-            margin: 0 5px;
-            background: red;
-            clip-path: polygon(50% 0%, 61% 18%, 100% 35%, 81% 57%, 50% 100%, 19% 57%, 0% 35%, 39% 18%);
-        }
-
-        footer {
-            background: #333;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            font-size: 0.9em;
-        }
-
-        @media (max-width: 600px) {
-            .controls {
-                flex-direction: column;
-                align-items: stretch;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Tower of Power</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+    }
+    #sidebar {
+      width: 200px;
+      background-color: #f0f0f0;
+      padding: 10px;
+    }
+    #sidebar ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    #sidebar li {
+      margin-bottom: 5px;
+    }
+    #sidebar button.active {
+      font-weight: bold;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #main {
+      flex: 1;
+      padding: 20px;
+    }
+    #question {
+      margin-bottom: 20px;
+    }
+    #tower {
+      display: flex;
+      flex-direction: column-reverse; /* bottom = rank 1 */
+      width: 200px;
+      margin: auto;
+    }
+    .tower-block {
+      background-color: #3498db;
+      color: white;
+      margin: 2px 0;
+      text-align: center;
+      line-height: 30px;
+      border-radius: 5px 5px 0 0;
+    }
+    #lives {
+      margin-top: 20px;
+    }
+    .life {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      background-color: red;
+      margin-right: 5px;
+      border-radius: 50%;
+    }
+  </style>
 </head>
 <body>
-    <header>Tower of Power</header>
-    <main>
-        <div class="controls">
-            <form method="POST" style="display: flex; flex-wrap: wrap; align-items: center;">
-                <label for="category">Category:</label>
-                <select name="category" onchange="this.form.submit()">
-                    {% for category in categories %}
-                        <option value="{{ category }}" {% if category == selected_category %}selected{% endif %}>
-                            {{ category }}
-                        </option>
-                    {% endfor %}
-                </select>
+  <div id="sidebar">
+    <h3>Categories</h3>
+    <ul>
+      {% for cat in categories %}
+        <li>
+          <form method="POST" style="display:inline;">
+            <input type="hidden" name="category" value="{{ cat }}">
+            <input type="hidden" name="date" value="{{ current_date }}">
+            <button type="submit" {% if selected_category == cat %}class="active"{% endif %}>
+              {{ cat }}
+            </button>
+          </form>
+        </li>
+      {% endfor %}
+    </ul>
+    <form method="POST">
+      <input type="hidden" name="date" value="{{ current_date }}">
+      <button type="submit" name="next_day">Next Day</button>
+    </form>
+  </div>
 
-                <input type="hidden" name="date" value="{{ current_date }}">
-                <button type="submit" name="next_day">Next Day</button>
-            </form>
+  <div id="main">
+    <div id="question">
+      <h2>{{ question_text }}</h2>
+    </div>
 
-            <div style="display: flex; flex-wrap: wrap; align-items: center; margin-left: 10px;">
-                <label>Background:</label>
-                <input type="color" id="bgColorPicker" value="#f2f2f2">
-                <label>Accent:</label>
-                <input type="color" id="accentColorPicker" value="#4CAF50">
-            </div>
+    <div id="tower">
+      {% for i in range(top_ten|length) %}
+        <div class="tower-block" style="height:{{ (top_ten|length - i) * 30 }}px;">
+          {{ top_ten[i] }}
         </div>
+      {% endfor %}
+    </div>
 
-        <h2>{{ selected_category }} Top Ten - {{ current_date }}</h2>
-        <div class="tower">
-            {% for item in top_ten %}
-                <div class="tower-item">{{ item }}</div>
-            {% endfor %}
-        </div>
-
-        <div class="lives">
-            <div class="life"></div>
-            <div class="life"></div>
-            <div class="life"></div>
-        </div>
-    </main>
-    <footer>
-        &copy; 2025 Tower of Power. All rights reserved.
-    </footer>
-
-    <script>
-        // Change background and accent colors dynamically
-        const bgPicker = document.getElementById('bgColorPicker');
-        const accentPicker = document.getElementById('accentColorPicker');
-
-        bgPicker.addEventListener('input', () => {
-            document.documentElement.style.setProperty('--bg-color', bgPicker.value);
-        });
-
-        accentPicker.addEventListener('input', () => {
-            document.documentElement.style.setProperty('--accent-color', accentPicker.value);
-        });
-    </script>
+    <div id="lives">
+      {% for i in range(lives) %}
+        <div class="life"></div>
+      {% endfor %}
+    </div>
+  </div>
 </body>
 </html>
-<header>Tower of Power</header>
-<main>
-    <h2>{{ selected_category }} - {{ question }}</h2>
-
-    <p>Lives:
-        {% for i in range(lives) %}
-            <span style="color:red;">♥</span>
-        {% endfor %}
-    </p>
-
-    {% if not show_answers and lives > 0 %}
-        <form method="POST">
-            <input type="text" name="guess" placeholder="Enter your guess" required>
-            <input type="hidden" name="category" value="{{ selected_category }}">
-            <button type="submit">Submit Guess</button>
-        </form>
-    {% elif lives <= 0 and not show_answers %}
-        <p>You have no lives left!</p>
-        <form method="POST">
-            <input type="hidden" name="category" value="{{ selected_category }}">
-            <button type="submit" name="show_answers">Show Answers</button>
-        </form>
-    {% endif %}
-
-    {% if show_answers %}
-        <div class="tower">
-            {% for item in top_ten %}
-                <div class="tower-item">{{ item }}</div>
-            {% endfor %}
-        </div>
-    {% endif %}
-</main>
-
 
