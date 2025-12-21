@@ -54,13 +54,13 @@
       text-align: center;
     }
 
-    /* Tower */
+    /* Tower as pyramid */
     #tower {
       display: flex;
       flex-direction: column-reverse; /* bottom = rank 1 */
-      justify-content: flex-start;
+      justify-content: flex-end;
+      align-items: center;
       height: 60%;
-      width: 200px;
     }
     .tower-block {
       background-color: #3498db;
@@ -68,7 +68,7 @@
       margin: 2px 0;
       text-align: center;
       line-height: 30px;
-      border-radius: 5px 5px 0 0;
+      border-radius: 5px;
       height: 30px;
     }
 
@@ -126,10 +126,10 @@
       <h2>{{ question_text }}</h2>
     </div>
 
-    <!-- Tower -->
+    <!-- Tower as pyramid -->
     <div id="tower">
       {% for i in range(top_ten|length) %}
-        <div class="tower-block" id="block-{{ i }}"></div>
+        <div class="tower-block" id="block-{{ i }}" style="width: {{ 50 + i*15 }}px;"></div>
       {% endfor %}
     </div>
 
@@ -175,15 +175,10 @@
       if (!correct) {
         lives--;
         updateLives();
-        if (lives <= 0) {
-          endGame();
-        }
+        if (lives <= 0) endGame();
       }
 
-      // Check if all answers revealed
-      if (document.querySelectorAll('.tower-block:empty').length === 0) {
-        endGame();
-      }
+      if (document.querySelectorAll('.tower-block:empty').length === 0) endGame();
     }
 
     function updateLives() {
@@ -195,7 +190,6 @@
 
     function endGame() {
       gameOver = true;
-      // Reveal remaining answers
       for (let i = 0; i < answers.length; i++) {
         const block = document.getElementById('block-' + i);
         if (block.innerText === '') {
@@ -206,8 +200,14 @@
       document.getElementById('guess').disabled = true;
       alert('Game Over!');
     }
+
+    // Submit on Enter key
+    document.getElementById('guess').addEventListener('keyup', function(event) {
+      if (event.key === 'Enter') submitGuess();
+    });
   </script>
 
 </body>
 </html>
+
 
