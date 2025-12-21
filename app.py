@@ -20,6 +20,9 @@ def get_questions_by_date(date_str):
 
 @app.route("/", methods=["GET", "POST"])
 def home():
+    # Default number of lives
+    lives = 3
+
     # Get current date or date from form (for Next Day preview)
     date_str = request.form.get("date", datetime.now().strftime("%Y-%m-%d"))
     
@@ -44,11 +47,13 @@ def home():
         categories=categories,
         selected_category=selected_category,
         top_ten=top_ten,
-        current_date=date_str
+        current_date=date_str,
+        lives=lives  # <-- Add this line to fix the template error
     )
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
+
 
 
 
