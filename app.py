@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 
@@ -8,32 +8,47 @@ app = Flask(__name__)
 with open("questions.json", "r") as f:
     all_questions = json.load(f)
 
-def get_today_questions():
-    """Return the questions for today based on the current date."""
-    today_str = datetime.now().strftime("%Y-%m-%d")
-    if today_str in all_questions:
-        return all_questions[today_str]
+# Sort dates for easier navigation
+sorted_dates = sorted(all_questions.keys())
+
+def get_questions_by_date(date_str):
+    """Return questions for a given date string, or last available if not found."""
+    if date_str in all_questions:
+        return all_questions[date_str]
     else:
-        # If today's date not in JSON, return last available day
-        last_date = sorted(all_questions.keys())[-1]
-        return all_questions[last_date]
+        return all_questions[sorted_dates[-1]]
 
 @app.route("/", methods=["GET", "POST"])
 def home():
-    today_questions = get_today_questions()
-    categories = list(today_questions.keys())
-    selected_category = request.form.get("category", categories[0])  # Default to first category
+    # Get current date or date from form (for Next Day preview)
+    date_str = request.form.get("date", datetime.now().strftime("%Y-%m-%d"))
+    
+    # Convert to index in sorted_dates for navigation
+    try:
+        current_index = sorted_dates.index(date_str)
+    except ValueError:
+        current_index = -1  # Default to last date if not found
 
-    top_ten = today_questions.get(selected_category, [])
+    # Check if "Next Day" button was clicked
+    if "next_day" in request.form:
+        current_index = (current_index + 1) % len(sorted_dates)
+        date_str = sorted_dates[current_index]
+
+    questions = get_questions_by_date(date_str)
+    categories = list(questions.keys())
+    selected_category = request.form.get("category", categories[0])  # Default to first category
+    top_ten = questions.get(selected_category, [])
 
     return render_template(
         "index.html",
         categories=categories,
         selected_category=selected_category,
-        top_ten=top_ten
+        top_ten=top_ten,
+        current_date=date_str
     )
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
+
 
 
