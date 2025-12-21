@@ -1,62 +1,75 @@
 from flask import Flask, render_template, request
-import json
 from datetime import datetime
+import random
 
 app = Flask(__name__)
 
-# Load all questions once
-with open("questions.json", "r") as f:
-    all_questions = json.load(f)
+# ===== MASTER POOLS FOR EACH CATEGORY =====
+MASTER_POOL = {
+    "Geography": [
+        "China","India","USA","Indonesia","Pakistan","Brazil","Nigeria","Bangladesh",
+        "Russia","Mexico","Canada","Chile","Cameroon","Curacao","Croatia"
+    ],
+    "History": [
+        "WWII","Napoleon","Genghis Khan","French Revolution","Industrial Revolution",
+        "Renaissance","Cold War","American Revolution","Roman Empire","Mongol Empire",
+        "Caesar","Cleopatra","Churchill","Charlemagne","Civil War"
+    ],
+    "General Knowledge": [
+        "Mount Everest","K2","Kangchenjunga","Lhotse","Makalu","Cho Oyu","Dhaulagiri",
+        "Manaslu","Nanga Parbat","Annapurna","Cheetah","Compass","Celsius","Carbon","Canberra"
+    ],
+    "Soccer": [
+        "Lionel Messi","Cristiano Ronaldo","Luis Suarez","Andres Iniesta","Xavi Hernandez",
+        "Ronaldinho","Zlatan Ibrahimovic","Paolo Maldini","Thierry Henry","Francesco Totti",
+        "Neymar","Mbappe","Cafu","Cantona","Casillas"
+    ],
+    "American Football": [
+        "Tom Brady","Drew Brees","Peyton Manning","Brett Favre","Ben Roethlisberger",
+        "Matt Ryan","Dan Marino","Eli Manning","John Elway","Troy Aikman","Terrell Owens",
+        "Tony Gonzalez","Cam Newton","Christian McCaffrey"
+    ]
+}
 
-# Sort dates for easier navigation
-sorted_dates = sorted(all_questions.keys())
+# ===== QUESTIONS PER CATEGORY =====
+CATEGORY_QUESTIONS = {
+    "Geography": "Name the top 10 countries by population.",
+    "History": "Name the top 10 most significant historical events.",
+    "General Knowledge": "Name the top 10 highest mountains or famous facts.",
+    "Soccer": "Name the top 10 footballers of all time.",
+    "American Football": "Name the top 10 NFL players by career stats."
+}
 
-def get_questions_by_date(date_str):
-    """Return questions for a given date string, or last available if not found."""
-    if date_str in all_questions:
-        return all_questions[date_str]
-    else:
-        return all_questions[sorted_dates[-1]]
+# ===== FUNCTION TO GENERATE TOP 10 PER CATEGORY FOR TODAY =====
+def generate_daily_questions():
+    daily_questions = {}
+    for category, pool in MASTER_POOL.items():
+        daily_questions[category] = random.sample(pool, 10)
+    return daily_questions
 
+# ===== ROUTE =====
 @app.route("/", methods=["GET", "POST"])
 def home():
-    # Default number of lives
-    lives = 3
-
-    # Get current date or date from form (for Next Day preview)
-    date_str = request.form.get("date", datetime.now().strftime("%Y-%m-%d"))
-    
-    # Convert to index in sorted_dates for navigation
-    try:
-        current_index = sorted_dates.index(date_str)
-    except ValueError:
-        current_index = -1  # Default to last date if not found
-
-    # Check if "Next Day" button was clicked
-    if "next_day" in request.form:
-        current_index = (current_index + 1) % len(sorted_dates)
-        date_str = sorted_dates[current_index]
-
-    questions = get_questions_by_date(date_str)
+    date_str = datetime.now().strftime("%Y-%m-%d")
+    questions = generate_daily_questions()
     categories = list(questions.keys())
-    selected_category = request.form.get("category", categories[0])  # Default to first category
 
-    category_data = questions.get(selected_category, {})
-    question_text = category_data.get("question", "No question available")
-    top_ten = category_data.get("answers", [])
+    selected_category = request.form.get("category", categories[0])
+    top_ten = questions.get(selected_category, [])
+    question_text = CATEGORY_QUESTIONS.get(selected_category, f"Name the top 10 {selected_category}")
 
     return render_template(
         "index.html",
         categories=categories,
         selected_category=selected_category,
-        question_text=question_text,
         top_ten=top_ten,
         current_date=date_str,
-        lives=lives
+        question_text=question_text
     )
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
+
 
 
 
