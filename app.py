@@ -1,62 +1,58 @@
 from flask import Flask, render_template, request
+import json
 from datetime import datetime
-import random
 
 app = Flask(__name__)
 
-# ===== MASTER POOLS FOR EACH CATEGORY =====
-MASTER_POOL = {
-    "Geography": [
-        "China","India","USA","Indonesia","Pakistan","Brazil","Nigeria","Bangladesh",
-        "Russia","Mexico","Canada","Chile","Cameroon","Curacao","Croatia"
-    ],
-    "History": [
-        "WWII","Napoleon","Genghis Khan","French Revolution","Industrial Revolution",
-        "Renaissance","Cold War","American Revolution","Roman Empire","Mongol Empire",
-        "Caesar","Cleopatra","Churchill","Charlemagne","Civil War"
-    ],
-    "General Knowledge": [
-        "Mount Everest","K2","Kangchenjunga","Lhotse","Makalu","Cho Oyu","Dhaulagiri",
-        "Manaslu","Nanga Parbat","Annapurna","Cheetah","Compass","Celsius","Carbon","Canberra"
-    ],
-    "Soccer": [
-        "Lionel Messi","Cristiano Ronaldo","Luis Suarez","Andres Iniesta","Xavi Hernandez",
-        "Ronaldinho","Zlatan Ibrahimovic","Paolo Maldini","Thierry Henry","Francesco Totti",
-        "Neymar","Mbappe","Cafu","Cantona","Casillas"
-    ],
-    "American Football": [
-        "Tom Brady","Drew Brees","Peyton Manning","Brett Favre","Ben Roethlisberger",
-        "Matt Ryan","Dan Marino","Eli Manning","John Elway","Troy Aikman","Terrell Owens",
-        "Tony Gonzalez","Cam Newton","Christian McCaffrey"
-    ]
-}
+# Load all questions once
+with open("questions.json", "r") as f:
+    all_questions = json.load(f)
 
-# ===== QUESTIONS PER CATEGORY =====
-CATEGORY_QUESTIONS = {
-    "Geography": "Name the top 10 countries by population.",
-    "History": "Name the top 10 most significant historical events.",
-    "General Knowledge": "Name the top 10 highest mountains or famous facts.",
-    "Soccer": "Name the top 10 footballers of all time.",
-    "American Football": "Name the top 10 NFL players by career stats."
-}
+# Sort dates for easier navigation
+sorted_dates = sorted(all_questions.keys())
 
-# ===== FUNCTION TO GENERATE TOP 10 PER CATEGORY FOR TODAY =====
-def generate_daily_questions():
-    daily_questions = {}
-    for category, pool in MASTER_POOL.items():
-        daily_questions[category] = random.sample(pool, 10)
-    return daily_questions
+def get_questions_by_date(date_str):
+    """Return questions for a given date string, or last available if not found."""
+    if date_str in all_questions:
+        return all_questions[date_str]
+    else:
+        return all_questions[sorted_dates[-1]]
 
-# ===== ROUTE =====
+def normalize_category(name):
+    """Convert category names to safe CSS/JS format (no spaces)."""
+    return name.replace(" ", "_")
+
 @app.route("/", methods=["GET", "POST"])
 def home():
-    date_str = datetime.now().strftime("%Y-%m-%d")
-    questions = generate_daily_questions()
-    categories = list(questions.keys())
+    # Get current date or date from form (for Next Day preview)
+    date_str = request.form.get("date", datetime.now().strftime("%Y-%m-%d"))
+    
+    try:
+        current_index = sorted_dates.index(date_str)
+    except ValueError:
+        current_index = -1  # Default to last date if not found
 
-    selected_category = request.form.get("category", categories[0])
+    # Check if "Next Day" button was clicked
+    if "next_day" in request.form:
+        current_index = (current_index + 1) % len(sorted_dates)
+        date_str = sorted_dates[current_index]
+
+    questions = get_questions_by_date(date_str)
+    categories = list(questions.keys())
+    selected_category = request.form.get("category", categories[0])  # Default to first category
     top_ten = questions.get(selected_category, [])
-    question_text = CATEGORY_QUESTIONS.get(selected_category, f"Name the top 10 {selected_category}")
+
+    # Generate statistical question per category
+    statistical_questions = {
+        "Geography": f"Top 10 {selected_category} by population",
+        "History": f"Top 10 {selected_category} by measurable impact (casualties, duration, etc.)",
+        "General Knowledge": f"Top 10 {selected_category} by measurable record",
+        "Soccer": f"Top 10 {selected_category} by appearances/goals",
+        "American Football": f"Top 10 {selected_category} by measurable stats (yards, points, wins)"
+    }
+
+    question_text = statistical_questions.get(selected_category, f"Top 10 {selected_category}")
+    category_class = normalize_category(selected_category)
 
     return render_template(
         "index.html",
@@ -64,11 +60,13 @@ def home():
         selected_category=selected_category,
         top_ten=top_ten,
         current_date=date_str,
-        question_text=question_text
+        question_text=question_text,
+        category_class=category_class
     )
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
+
 
 
 
