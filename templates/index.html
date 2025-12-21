@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Word Pyramid</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <h1>Word Pyramid</h1>
+
+  <form method="POST">
+    <input type="text" name="word" placeholder="Enter a word" required>
+    <button type="submit">Create Pyramid</button>
+  </form>
+
+  {% if result %}
+    <ul>
+      {% for line in result %}
+        <li>{{ line }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</body>
+</html>
