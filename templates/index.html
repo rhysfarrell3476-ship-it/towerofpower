@@ -1,23 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Word Pyramid</title>
-  <link rel="stylesheet" href="/static/styles.css">
+    <title>Top Ten Game</title>
+    <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-  <h1>Word Pyramid</h1>
+    <div class="container">
+        <h1>Top Ten Game</h1>
 
-  <form method="POST">
-    <input type="text" name="word" placeholder="Enter a word" required>
-    <button type="submit">Create Pyramid</button>
-  </form>
+        <form method="POST">
+            <label for="category">Choose a category:</label>
+            <select name="category" id="category" required>
+                <option value="">--Select--</option>
+                {% for cat in categories %}
+                    <option value="{{ cat }}" {% if selected_category == cat %}selected{% endif %}>{{ cat }}</option>
+                {% endfor %}
+            </select>
 
-  {% if result %}
-    <ul>
-      {% for line in result %}
-        <li>{{ line }}</li>
-      {% endfor %}
-    </ul>
-  {% endif %}
+            <h2>Enter your answers:</h2>
+            {% for i in range(1, 11) %}
+                <input type="text" name="answer{{i}}" placeholder="Answer {{i}}" required><br>
+            {% endfor %}
+
+            <button type="submit">Submit</button>
+        </form>
+
+        {% if result %}
+            <h2>Results ({{ correct_count }}/10 correct)</h2>
+            <ul>
+                {% for r in result %}
+                    <li>
+                        Your answer: {{ r.your_answer }} |
+                        Correct answer: {{ r.correct_answer }} |
+                        {% if r.correct %}<span class="correct">✔</span>{% else %}<span class="wrong">✖</span>{% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
 </body>
 </html>
