@@ -46,7 +46,7 @@ body {
 .sidebar {
   width: 220px;
   padding: 20px;
-  background: rgba(0,0,0,.7);
+  background: rgba(0,0,0,.75);
 }
 
 .sidebar h2 {
@@ -79,7 +79,7 @@ body {
 /* ===== QUESTION ===== */
 .question {
   font-size: 26px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 /* ===== INPUT ===== */
@@ -87,11 +87,29 @@ input {
   width: 320px;
   padding: 10px;
   font-size: 18px;
-  margin-bottom: 10px;
+}
+
+#suggestions {
+  width: 320px;
+  background: #222;
+  border-radius: 6px;
+  margin-top: 2px;
+  max-height: 140px;
+  overflow-y: auto;
+}
+
+.suggestion {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.suggestion:hover {
+  background: #444;
 }
 
 /* ===== PYRAMID ===== */
 .pyramid {
+  margin-top: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -118,7 +136,7 @@ input {
 
 /* ===== LIVES ===== */
 .lives {
-  margin-top: 12px;
+  margin-top: 10px;
 }
 
 .life {
@@ -148,8 +166,8 @@ input {
     Top 10 {{ selected_category }} – {{ current_date }}
   </div>
 
-  <input id="guess" list="autocomplete" placeholder="Type your answer..." autocomplete="off">
-  <datalist id="autocomplete"></datalist>
+  <input id="guess" placeholder="Type your answer..." autocomplete="off">
+  <div id="suggestions"></div>
 
   <div class="pyramid" id="pyramid"></div>
 
@@ -162,10 +180,36 @@ input {
 
 <script>
 const answers = {{ top_ten | tojson }};
-let revealed = [];
-let lives = 3;
+const category = "{{ selected_category }}";
 
-// ===== BUILD PYRAMID =====
+/* ===== SAFE AUTOCOMPLETE POOLS ===== */
+const suggestionPools = {
+  Geography: [
+    "China","Canada","Chile","Cameroon","Colombia","Comoros","Croatia",
+    "Curacao","Czech Republic","Cambodia","Congo","Costa Rica"
+  ],
+  History: [
+    "Caesar","Cleopatra","Churchill","Charlemagne",
+    "Cold War","Crimean War","Civil War","Crusades"
+  ],
+  Soccer: [
+    "Cristiano Ronaldo","Cantona","Casillas","Cafu",
+    "Cruyff","Chiellini","Carlos Tevez","Cesc Fabregas"
+  ],
+  "American Football": [
+    "Tom Brady","Troy Aikman","Terrell Owens",
+    "Tony Gonzalez","Cam Newton","Christian McCaffrey"
+  ],
+  "General Knowledge": [
+    "Cheetah","Canada","Carbon","Canberra",
+    "Calcium","Compass","Celsius"
+  ]
+};
+
+const pool = suggestionPools[category] || [];
+let revealed = [];
+
+/* ===== BUILD PYRAMID ===== */
 const pyramid = document.getElementById("pyramid");
 answers.forEach((_, i) => {
   const block = document.createElement("div");
@@ -175,19 +219,12 @@ answers.forEach((_, i) => {
   pyramid.appendChild(block);
 });
 
-// ===== AUTOCOMPLETE =====
-const datalist = document.getElementById("autocomplete");
-answers.forEach(a => {
-  const opt = document.createElement("option");
-  opt.value = a;
-  datalist.appendChild(opt);
-});
-
-// ===== GUESS HANDLING =====
+/* ===== GUESS HANDLING ===== */
 function submitGuess() {
   const input = document.getElementById("guess");
   const guess = input.value.trim().toLowerCase();
   input.value = "";
+  document.getElementById("suggestions").innerHTML = "";
 
   answers.forEach((answer, i) => {
     if (answer.toLowerCase() === guess && !revealed.includes(i)) {
@@ -198,8 +235,33 @@ function submitGuess() {
   });
 }
 
-// ENTER KEY SUPPORT
-document.getElementById("guess").addEventListener("keyup", e => {
+/* ===== SMART AUTOCOMPLETE ===== */
+const input = document.getElementById("guess");
+const suggestionsBox = document.getElementById("suggestions");
+
+input.addEventListener("input", () => {
+  const value = input.value.toLowerCase();
+  suggestionsBox.innerHTML = "";
+  if (!value) return;
+
+  pool
+    .filter(item => item.toLowerCase().startsWith(value))
+    .slice(0, 5)
+    .forEach(match => {
+      const div = document.createElement("div");
+      div.className = "suggestion";
+      div.textContent = match;
+      div.onclick = () => {
+        input.value = match;
+        suggestionsBox.innerHTML = "";
+        submitGuess();
+      };
+      suggestionsBox.appendChild(div);
+    });
+});
+
+/* ===== ENTER KEY ===== */
+input.addEventListener("keyup", e => {
   if (e.key === "Enter") submitGuess();
 });
 </script>
