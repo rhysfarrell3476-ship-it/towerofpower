@@ -6,6 +6,8 @@
 </head>
 <body>
     <h1>Daily Top Ten Game</h1>
+    <p>Date: {{ current_date }}</p>
+
     <form method="POST">
         <label for="category">Select Category:</label>
         <select name="category" onchange="this.form.submit()">
@@ -15,6 +17,8 @@
                 </option>
             {% endfor %}
         </select>
+        <input type="hidden" name="date" value="{{ current_date }}">
+        <button type="submit" name="next_day">Next Day</button>
     </form>
 
     <h2>{{ selected_category }} Top Ten</h2>
