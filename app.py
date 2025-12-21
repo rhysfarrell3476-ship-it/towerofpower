@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 import json
-from datetime import datetime, timedelta
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -40,15 +40,19 @@ def home():
     questions = get_questions_by_date(date_str)
     categories = list(questions.keys())
     selected_category = request.form.get("category", categories[0])  # Default to first category
-    top_ten = questions.get(selected_category, [])
+
+    category_data = questions.get(selected_category, {})
+    question_text = category_data.get("question", "No question available")
+    top_ten = category_data.get("answers", [])
 
     return render_template(
         "index.html",
         categories=categories,
         selected_category=selected_category,
+        question_text=question_text,
         top_ten=top_ten,
         current_date=date_str,
-        lives=lives  # <-- Add this line to fix the template error
+        lives=lives
     )
 
 if __name__ == "__main__":
