@@ -1,211 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Tower of Power</title>
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-    }
-    body {
-      display: flex;
-      font-family: Arial, sans-serif;
-    }
+<meta charset="UTF-8">
+<title>Tower of Power</title>
 
-    /* Sidebar */
-    #sidebar {
-      width: 200px;
-      background-color: #f0f0f0;
-      padding: 10px;
-      overflow-y: auto;
-    }
-    #sidebar ul {
-      list-style-type: none;
-      padding: 0;
-    }
-    #sidebar li {
-      margin-bottom: 5px;
-    }
-    #sidebar button.active {
-      font-weight: bold;
-      background-color: #3498db;
-      color: white;
-      border: none;
-      padding: 5px 10px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
+<style>
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
 
-    /* Main game area */
-    #main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px;
-      overflow: hidden;
-    }
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  background-size: cover;
+  background-position: center;
+  transition: background 0.6s ease;
+  color: white;
+}
 
-    /* Question */
-    #question {
-      margin-bottom: 20px;
-      text-align: center;
-    }
+/* ===== CATEGORY BACKGROUNDS ===== */
+.bg-Geography {
+  background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)),
+  url("https://images.unsplash.com/photo-1502920917128-1aa500764b6e");
+}
+.bg-History {
+  background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)),
+  url("https://images.unsplash.com/photo-1524492412937-b28074a5d7da");
+}
+.bg-General\ Knowledge {
+  background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)),
+  url("https://images.unsplash.com/photo-1519681393784-d120267933ba");
+}
+.bg-Soccer {
+  background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)),
+  url("https://images.unsplash.com/photo-1518091043644-c1d4457512c6");
+}
+.bg-American\ Football {
+  background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)),
+  url("https://images.unsplash.com/photo-1508609349937-5ec4ae374ebf");
+}
 
-    /* Tower as pyramid */
-    #tower {
-      display: flex;
-      flex-direction: column-reverse; /* bottom = rank 1 */
-      justify-content: flex-end;
-      align-items: center;
-      height: 60%;
-    }
-    .tower-block {
-      background-color: #3498db;
-      color: white;
-      margin: 2px 0;
-      text-align: center;
-      line-height: 30px;
-      border-radius: 5px;
-      height: 30px;
-    }
+/* ===== LAYOUT ===== */
+.sidebar {
+  width: 220px;
+  padding: 20px;
+  background: rgba(0,0,0,.7);
+}
 
-    /* Input area */
-    #input-area {
-      margin-top: 20px;
-    }
-    #guess {
-      padding: 5px;
-      width: 150px;
-    }
+.sidebar h2 {
+  text-align: center;
+}
 
-    /* Lives */
-    #lives {
-      margin-top: 20px;
-    }
-    .life {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      background-color: red;
-      margin-right: 5px;
-      border-radius: 50%;
-    }
-  </style>
+.category-btn {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 8px;
+  background: #1e90ff;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.category-btn:hover {
+  background: #63b3ff;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+/* ===== QUESTION ===== */
+.question {
+  font-size: 26px;
+  margin-bottom: 15px;
+}
+
+/* ===== INPUT ===== */
+input {
+  width: 320px;
+  padding: 10px;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+/* ===== PYRAMID ===== */
+.pyramid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.block {
+  width: calc(140px + var(--i) * 22px);
+  height: 42px;
+  background: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  border-radius: 6px;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+}
+
+.block.revealed {
+  background: #28a745;
+  transform: rotateY(180deg);
+}
+
+/* ===== LIVES ===== */
+.lives {
+  margin-top: 12px;
+}
+
+.life {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background: red;
+  border-radius: 50%;
+  margin: 0 4px;
+}
+</style>
 </head>
-<body>
 
-  <!-- Sidebar -->
-  <div id="sidebar">
-    <h3>Categories</h3>
-    <ul>
-      {% for cat in categories %}
-        <li>
-          <form method="POST" style="display:inline;">
-            <input type="hidden" name="category" value="{{ cat }}">
-            <input type="hidden" name="date" value="{{ current_date }}">
-            <button type="submit" {% if selected_category == cat %}class="active"{% endif %}>
-              {{ cat }}
-            </button>
-          </form>
-        </li>
-      {% endfor %}
-    </ul>
-    <form method="POST">
-      <input type="hidden" name="date" value="{{ current_date }}">
-      <button type="submit" name="next_day">Next Day</button>
-    </form>
+<body class="bg-{{ selected_category }}">
+
+<div class="sidebar">
+  <h2>Categories</h2>
+  <form method="POST">
+    {% for cat in categories %}
+      <button class="category-btn" name="category" value="{{ cat }}">{{ cat }}</button>
+    {% endfor %}
+  </form>
+</div>
+
+<div class="main">
+  <div class="question">
+    Top 10 {{ selected_category }} – {{ current_date }}
   </div>
 
-  <!-- Main area -->
-  <div id="main">
-    <!-- Question -->
-    <div id="question">
-      <h2>{{ question_text }}</h2>
-    </div>
+  <input id="guess" list="autocomplete" placeholder="Type your answer..." autocomplete="off">
+  <datalist id="autocomplete"></datalist>
 
-    <!-- Tower as pyramid -->
-    <div id="tower">
-      {% for i in range(top_ten|length) %}
-        <div class="tower-block" id="block-{{ i }}" style="width: {{ 50 + i*15 }}px;"></div>
-      {% endfor %}
-    </div>
+  <div class="pyramid" id="pyramid"></div>
 
-    <!-- Input -->
-    <div id="input-area">
-      <input type="text" id="guess" placeholder="Enter your guess">
-      <button onclick="submitGuess()">Submit</button>
-    </div>
-
-    <!-- Lives -->
-    <div id="lives">
-      {% for i in range(lives) %}
-        <div class="life"></div>
-      {% endfor %}
-    </div>
+  <div class="lives" id="lives">
+    <span class="life"></span>
+    <span class="life"></span>
+    <span class="life"></span>
   </div>
+</div>
 
-  <!-- Game JS -->
-  <script>
-    const answers = {{ top_ten|tojson }};
-    let lives = {{ lives }};
-    let gameOver = false;
+<script>
+const answers = {{ top_ten | tojson }};
+let revealed = [];
+let lives = 3;
 
-    function submitGuess() {
-      if (gameOver) return;
+// ===== BUILD PYRAMID =====
+const pyramid = document.getElementById("pyramid");
+answers.forEach((_, i) => {
+  const block = document.createElement("div");
+  block.className = "block";
+  block.style.setProperty("--i", 9 - i);
+  block.textContent = i + 1;
+  pyramid.appendChild(block);
+});
 
-      const guessInput = document.getElementById('guess');
-      const guess = guessInput.value.trim();
-      guessInput.value = '';
+// ===== AUTOCOMPLETE =====
+const datalist = document.getElementById("autocomplete");
+answers.forEach(a => {
+  const opt = document.createElement("option");
+  opt.value = a;
+  datalist.appendChild(opt);
+});
 
-      let correct = false;
+// ===== GUESS HANDLING =====
+function submitGuess() {
+  const input = document.getElementById("guess");
+  const guess = input.value.trim().toLowerCase();
+  input.value = "";
 
-      for (let i = 0; i < answers.length; i++) {
-        const block = document.getElementById('block-' + i);
-        if (block.innerText === '' && answers[i].toLowerCase() === guess.toLowerCase()) {
-          block.innerText = answers[i];
-          block.style.backgroundColor = '#2ecc71'; // green
-          correct = true;
-          break;
-        }
-      }
-
-      if (!correct) {
-        lives--;
-        updateLives();
-        if (lives <= 0) endGame();
-      }
-
-      if (document.querySelectorAll('.tower-block:empty').length === 0) endGame();
+  answers.forEach((answer, i) => {
+    if (answer.toLowerCase() === guess && !revealed.includes(i)) {
+      pyramid.children[i].textContent = answer;
+      pyramid.children[i].classList.add("revealed");
+      revealed.push(i);
     }
+  });
+}
 
-    function updateLives() {
-      const lifeDivs = document.getElementById('lives').children;
-      for (let i = 0; i < lifeDivs.length; i++) {
-        lifeDivs[i].style.backgroundColor = i < lives ? 'red' : 'grey';
-      }
-    }
-
-    function endGame() {
-      gameOver = true;
-      for (let i = 0; i < answers.length; i++) {
-        const block = document.getElementById('block-' + i);
-        if (block.innerText === '') {
-          block.innerText = answers[i];
-          block.style.backgroundColor = '#e74c3c'; // red for missed
-        }
-      }
-      document.getElementById('guess').disabled = true;
-      alert('Game Over!');
-    }
-
-    // Submit on Enter key
-    document.getElementById('guess').addEventListener('keyup', function(event) {
-      if (event.key === 'Enter') submitGuess();
-    });
-  </script>
+// ENTER KEY SUPPORT
+document.getElementById("guess").addEventListener("keyup", e => {
+  if (e.key === "Enter") submitGuess();
+});
+</script>
 
 </body>
 </html>
