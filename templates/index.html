@@ -185,5 +185,37 @@
     </script>
 </body>
 </html>
+<header>Tower of Power</header>
+<main>
+    <h2>{{ selected_category }} - {{ question }}</h2>
+
+    <p>Lives:
+        {% for i in range(lives) %}
+            <span style="color:red;">♥</span>
+        {% endfor %}
+    </p>
+
+    {% if not show_answers and lives > 0 %}
+        <form method="POST">
+            <input type="text" name="guess" placeholder="Enter your guess" required>
+            <input type="hidden" name="category" value="{{ selected_category }}">
+            <button type="submit">Submit Guess</button>
+        </form>
+    {% elif lives <= 0 and not show_answers %}
+        <p>You have no lives left!</p>
+        <form method="POST">
+            <input type="hidden" name="category" value="{{ selected_category }}">
+            <button type="submit" name="show_answers">Show Answers</button>
+        </form>
+    {% endif %}
+
+    {% if show_answers %}
+        <div class="tower">
+            {% for item in top_ten %}
+                <div class="tower-item">{{ item }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</main>
 
 
