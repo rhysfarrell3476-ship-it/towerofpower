@@ -1,9 +1,72 @@
 {
   "2025-12-21": {
-    "Geography": ["China", "India", "USA", "Indonesia", "Brazil", "Pakistan", "Nigeria", "Bangladesh", "Russia", "Mexico"],
-    "History": ["WWII", "Napoleon", "Genghis Khan", "French Revolution", "Industrial Revolution", "Renaissance", "Cold War", "American Revolution", "Roman Empire", "Mongol Empire"],
-    "General Knowledge": ["Earth", "Water", "Sun", "Moon", "Oxygen", "Python", "Elephant", "Mount Everest", "Amazon", "Gravity"],
-    "Soccer": ["Messi", "Ronaldo", "Pele", "Maradona", "Neymar", "Mbappe", "Zidane", "Beckham", "Ronaldinho", "Kane"],
-    "American Football": ["Tom Brady", "Patrick Mahomes", "Joe Montana", "Jerry Rice", "Lawrence Taylor", "Peyton Manning", "Aaron Rodgers", "Jim Brown", "Reggie White", "Emmitt Smith"]
+    "Geography": ["China","India","USA","Indonesia","Pakistan","Brazil","Nigeria","Bangladesh","Russia","Mexico"],
+    "History": ["WWII","Napoleon","Genghis Khan","French Revolution","Industrial Revolution","Renaissance","Cold War","American Revolution","Roman Empire","Mongol Empire"],
+    "General Knowledge": ["Mount Everest","K2","Kangchenjunga","Lhotse","Makalu","Cho Oyu","Dhaulagiri","Manaslu","Nanga Parbat","Annapurna"],
+    "Soccer": ["Ryan Giggs","Bobby Charlton","Paul Scholes","Bill Foulkes","Gary Neville","Wayne Rooney","Denis Irwin","Alex Stepney","Edwin van der Sar","Eric Cantona"],
+    "American Football": ["Tom Brady","Drew Brees","Peyton Manning","Brett Favre","Ben Roethlisberger","Philip Rivers","Matt Ryan","Dan Marino","Eli Manning","John Elway"]
+  },
+  "2025-12-22": {
+    "Geography": ["Nile","Amazon","Yangtze","Mississippi","Yenisei","Yellow River","Ob","Parana","Congo","Amur"],
+    "History": ["George Washington","Franklin D. Roosevelt","Theodore Roosevelt","Thomas Jefferson","Harry S. Truman","Abraham Lincoln","James Madison","James Monroe","Andrew Jackson","Dwight D. Eisenhower"],
+    "General Knowledge": ["Sahara","Arabian","Gobi","Kalahari","Patagonian","Great Victoria","Great Basin","Syrian","Thar","Sonoran"],
+    "Soccer": ["Lionel Messi","Cristiano Ronaldo","Luis Suarez","Andres Iniesta","Xavi Hernandez","Ronaldinho","Zlatan Ibrahimovic","Paolo Maldini","Thierry Henry","Francesco Totti"],
+    "American Football": ["Emmitt Smith","Walter Payton","Barry Sanders","Frank Gore","LaDainian Tomlinson","Marcus Allen","Earl Campbell","Marshall Faulk","Jim Brown","Curtis Martin"]
+  },
+  "2025-12-23": {
+    "Geography": ["Tokyo","Delhi","Shanghai","Sao Paulo","Mumbai","Beijing","Mexico City","Osaka","Cairo","New York City"],
+    "History": ["Battle of Hastings","Battle of Waterloo","Battle of Stalingrad","Battle of Gettysburg","Battle of Midway","Battle of Agincourt","Battle of Tours","Battle of Thermopylae","Battle of Yorktown","Battle of Bannockburn"],
+    "General Knowledge": ["Cheetah","Peregrine Falcon","Sailfish","Pronghorn","Springbok","Lion","Thomson's Gazelle","Greyhound","Brown Hare","Kangaroo"],
+    "Soccer": ["Iker Casillas","Raul Gonzalez","Sergio Ramos","Fernando Hierro","Roberto Carlos","Zinedine Zidane","Cristiano Ronaldo","Karim Benzema","Luka Modric","Luis Figo"],
+    "American Football": ["Jerry Rice","Larry Fitzgerald","Terrell Owens","Randy Moss","Marvin Harrison","Steve Largent","Isaac Bruce","Andre Johnson","Antonio Brown","Michael Thomas"]
+  },
+  "2025-12-24": {
+    "Geography": ["Greenland","New Guinea","Borneo","Madagascar","Baffin Island","Sumatra","Honshu","Great Britain","Victoria Island","Ellesmere Island"],
+    "History": ["Alexander the Great","Julius Caesar","Cleopatra","Napoleon Bonaparte","Queen Victoria","Charlemagne","Peter the Great","Catherine the Great","Abraham Lincoln","George Washington"],
+    "General Knowledge": ["Burj Khalifa","Shanghai Tower","Abraj Al-Bait Clock Tower","Ping An Finance Center","Lotte World Tower","One World Trade Center","Guangzhou CTF Finance Centre","Tianjin CTF Finance Center","Taipei 101","CITIC Tower"],
+    "Soccer": ["Steven Gerrard","Ian Rush","Fernando Torres","Robbie Fowler","Paul Scholes","Ryan Giggs","Wayne Rooney","Roy Keane","Bryan Robson","David Beckham"],
+    "American Football": ["Tom Brady","Joe Montana","Peyton Manning","Brett Favre","Drew Brees","Ben Roethlisberger","Dan Marino","Aaron Rodgers","John Elway","Patrick Mahomes"]
+  },
+  "2025-12-25": {
+    "Geography": ["Mount Everest","K2","Kangchenjunga","Lhotse","Makalu","Cho Oyu","Dhaulagiri","Manaslu","Nanga Parbat","Annapurna"],
+    "History": ["Industrial Revolution","French Revolution","American Revolution","Cold War","Renaissance","World War I","World War II","Mongol Empire","Ottoman Empire","Roman Empire"],
+    "General Knowledge": ["Amazon","Nile","Yangtze","Mississippi","Yenisei","Yellow River","Ob","Parana","Congo","Amur"],
+    "Soccer": ["Lionel Messi","Cristiano Ronaldo","Luis Suarez","Andres Iniesta","Xavi Hernandez","Ronaldinho","Zlatan Ibrahimovic","Paolo Maldini","Thierry Henry","Francesco Totti"],
+    "American Football": ["Emmitt Smith","Walter Payton","Barry Sanders","Frank Gore","LaDainian Tomlinson","Marcus Allen","Earl Campbell","Marshall Faulk","Jim Brown","Curtis Martin"]
+  },
+  "2025-12-26": {
+    "Geography": ["USA","China","India","Brazil","Russia","Canada","Australia","Argentina","Kazakhstan","Algeria"],
+    "History": ["Napoleon Bonaparte","Alexander the Great","Julius Caesar","Genghis Khan","Queen Victoria","Charlemagne","Peter the Great","Catherine the Great","Abraham Lincoln","George Washington"],
+    "General Knowledge": ["Sahara","Gobi","Kalahari","Arabian","Patagonian","Great Victoria","Great Basin","Syrian","Thar","Sonoran"],
+    "Soccer": ["Cristiano Ronaldo","Lionel Messi","Zlatan Ibrahimovic","Luis Suarez","Karim Benzema","Neymar","Kylian Mbappe","Harry Kane","Sergio Aguero","Robert Lewandowski"],
+    "American Football": ["Tom Brady","Drew Brees","Peyton Manning","Brett Favre","Ben Roethlisberger","Aaron Rodgers","Matt Ryan","Joe Montana","Dan Marino","Patrick Mahomes"]
+  },
+  "2025-12-27": {
+    "Geography": ["Tokyo","Delhi","Shanghai","Sao Paulo","Mumbai","Beijing","Mexico City","Osaka","Cairo","New York City"],
+    "History": ["Battle of Normandy","Battle of Bulge","Battle of Britain","Battle of Midway","Battle of Kursk","Battle of Iwo Jima","Battle of Thermopylae","Battle of Gettysburg","Battle of Agincourt","Battle of Hastings"],
+    "General Knowledge": ["Mount Kilimanjaro","Mount Elbrus","Mount Denali","Mount Aconcagua","Mount Vinson","Mount Puncak Jaya","Mount Kosciuszko","Mount Fuji","Mount St. Elias","Mount Logan"],
+    "Soccer": ["Iker Casillas","Raul Gonzalez","Sergio Ramos","Fernando Hierro","Roberto Carlos","Zinedine Zidane","Cristiano Ronaldo","Karim Benzema","Luka Modric","Luis Figo"],
+    "American Football": ["Jerry Rice","Larry Fitzgerald","Terrell Owens","Randy Moss","Marvin Harrison","Steve Largent","Isaac Bruce","Andre Johnson","Antonio Brown","Michael Thomas"]
+  },
+  "2025-12-28": {
+    "Geography": ["Greenland","New Guinea","Borneo","Madagascar","Baffin Island","Sumatra","Honshu","Great Britain","Victoria Island","Ellesmere Island"],
+    "History": ["Christopher Columbus","Marco Polo","Ferdinand Magellan","Vasco da Gama","Amerigo Vespucci","James Cook","Hernan Cortes","Francisco Pizarro","Henry Hudson","Leif Erikson"],
+    "General Knowledge": ["Marie Curie","Albert Einstein","Isaac Newton","Niels Bohr","Galileo Galilei","Nikola Tesla","Stephen Hawking","Richard Feynman","Michael Faraday","James Clerk Maxwell"],
+    "Soccer": ["Gianluigi Buffon","Paolo Maldini","Francesco Totti","Andrea Pirlo","Alessandro Del Piero","Roberto Baggio","Franco Baresi","Carlo Ancelotti","Gennaro Gattuso","Christian Vieri"],
+    "American Football": ["Adam Vinatieri","Morten Andersen","Justin Tucker","Gary Anderson","Stephen Gostkowski","David Akers","John Carney","Matt Stover","Jason Hanson","Sebastian Janikowski"]
+  },
+  "2025-12-29": {
+    "Geography": ["Mariana Trench","Tonga Trench","Philippine Trench","Kuril-Kamchatka Trench","Japan Trench","Kermadec Trench","Puerto Rico Trench","Java Trench","South Sandwich Trench","Sunda Trench"],
+    "History": ["World War I Battles","World War II Battles","Vietnam War Battles","Korean War Battles","Napoleonic Wars","American Civil War","Crimean War","Russo-Japanese War","Seven Years' War","Peloponnesian War"],
+    "General Knowledge": ["Burj Khalifa","Shanghai Tower","Abraj Al-Bait Clock Tower","Ping An Finance Center","Lotte World Tower","One World Trade Center","Guangzhou CTF Finance Centre","Tianjin CTF Finance Center","Taipei 101","CITIC Tower"],
+    "Soccer": ["Paolo Maldini","Francesco Totti","Roberto Baggio","Gianluigi Buffon","Alessandro Del Piero","Andrea Pirlo","Christian Vieri","Zlatan Ibrahimovic","Thierry Henry","Raul Gonzalez"],
+    "American Football": ["Lawrence Taylor","Reggie White","Bruce Smith","J.J. Watt","Deacon Jones","Von Miller","Chris Doleman","Derrick Thomas","Richard Dent","Jack Youngblood"]
+  },
+  "2025-12-30": {
+    "Geography": ["Himalayas","Andes","Rockies","Alps","Urals","Caucasus","Atlas","Pyrenees","Carpathians","Great Dividing Range"],
+    "History": ["Roman Emperors","Egyptian Pharaohs","Greek Kings","Mongol Khans","Ottoman Sultans","British Monarchs","Chinese Dynasties","Japanese Emperors","Russian Tsars","Persian Shahs"],
+    "General Knowledge": ["Fastest Cars","Fastest Trains","Fastest Aircraft","Fastest Ships","Fastest Animals","Fastest Internet Speeds","Fastest Rollercoasters","Fastest Computers","Fastest Runners","Fastest Bikes"],
+    "Soccer": ["Manchester United all-time goals","Barcelona all-time goals","Real Madrid all-time appearances","Liverpool all-time appearances","Juventus all-time goals","AC Milan all-time goals","Bayern Munich all-time goals","Arsenal all-time goals","Chelsea all-time goals","Inter Milan all-time goals"],
+    "American Football": ["Top QB passing yards","Top RB rushing yards","Top WR receiving yards","Top TE receptions","Top K points","Top defensive sacks","Top tackles","Top interceptions","Top Super Bowl wins","Top career touchdowns"]
   }
 }
