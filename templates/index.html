@@ -69,6 +69,7 @@ input { width: 280px; padding: 8px; font-size: 16px; margin-bottom: 4px; }
 const answers = {{ top_ten | tojson }};
 const category = "{{ category_class }}";
 
+/* ===== SAFE AUTOCOMPLETE POOLS ===== */
 const suggestionPools = {
   Geography: ["China","Canada","Chile","Cameroon","Colombia","Comoros","Croatia","Curacao","Czech Republic","Cambodia","Congo","Costa Rica"],
   History: ["Caesar","Cleopatra","Churchill","Charlemagne","Cold War","Crimean War","Civil War","Crusades","WWII","Napoleon","Genghis Khan","French Revolution","Renaissance"],
@@ -81,17 +82,19 @@ const pool = suggestionPools[category] || [];
 let revealed = [];
 let lives = 3;
 
+/* ===== BUILD PYRAMID ===== */
 const pyramid = document.getElementById("pyramid");
 answers.forEach((_, i) => {
   const block = document.createElement("div");
   block.className = "block";
   block.style.setProperty("--i", 9 - i);
-  block.textContent = i + 1;
+  block.textContent = i + 1;   // show rank number
   pyramid.appendChild(block);
 });
 
 const livesContainer = document.getElementById("lives");
 
+/* ===== GUESS HANDLING ===== */
 function submitGuess() {
   const input = document.getElementById("guess");
   const guess = input.value.trim().toLowerCase();
@@ -152,12 +155,14 @@ input.addEventListener("input", () => {
     });
 });
 
+/* ===== ENTER KEY ===== */
 input.addEventListener("keyup", e => {
   if (e.key === "Enter") submitGuess();
 });
 </script>
 </body>
 </html>
+
 
 
 
